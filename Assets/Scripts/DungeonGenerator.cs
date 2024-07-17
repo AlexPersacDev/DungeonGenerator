@@ -46,17 +46,17 @@ public class DungeonGenerator : MonoBehaviour
             generatedRooms[i].GenerateRoom();
             await Task.Delay(1);
             
-            if (!generatedRooms[i].CheckIfIsInsideOfanotherRoom()) continue;
+            if (!generatedRooms[i].CheckIfIsInsideOfAnotherRoom()) continue;
             
-            while (generatedRooms[i].CheckIfIsInsideOfanotherRoom())
+            while (generatedRooms[i].CheckIfIsInsideOfAnotherRoom())
             {
                 await Task.Delay(1);
                 int indx = Random.Range(0, generatedRooms.Count);
                 neighborCurrentRoom = generatedRooms[indx].gameObject;
-                print(indx);
-                generatedRooms[i].transform.position = neighborCurrentRoom.transform.position;
                 
                 generatedRooms[i].RescaleRoom();
+                
+                generatedRooms[i].transform.localPosition = neighborCurrentRoom.transform.localPosition;
                 
                 PutRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
             }
@@ -66,21 +66,21 @@ public class DungeonGenerator : MonoBehaviour
 
     private void PutRoomInNeighbourBounds (RoomGenerator currentRoom, GameObject neighbourRoom)
     {
-        float zValue = neighbourRoom.transform.localScale.z + currentRoom.transform.localScale.z;
-        float xValue = neighbourRoom.transform.localScale.x + currentRoom.transform.localScale.x;;
+        
+        
         
         if (GetRandomValue() < 0)
         {
-            currentRoom.transform.position +=
-                new Vector3(xValue / GetRandomValue(),
-                    transform.position.y, zValue);
+            float zValue = neighbourRoom.transform.localScale.z + currentRoom.transform.localScale.z;
+            
+            currentRoom.transform.localPosition += new Vector3(transform.localPosition.x, transform.position.y, zValue);
         }
 
         else
         {
-            currentRoom.transform.position +=
-                new Vector3(xValue,
-                    transform.position.y, zValue / GetRandomValue());
+            float xValue = neighbourRoom.transform.localScale.x + currentRoom.transform.localScale.x;
+            
+            currentRoom.transform.localPosition += new Vector3(xValue, transform.position.y, transform.localPosition.z);
         }
     }
 

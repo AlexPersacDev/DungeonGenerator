@@ -59,10 +59,10 @@ public class RoomGenerator : MonoBehaviour
         ActivateAndSetWalls();
     }
 
-    public bool CheckIfIsInsideOfanotherRoom ()
+    public bool CheckIfIsInsideOfAnotherRoom ()
     {
         detectedRooms = null;
-        detectedRooms = Physics.OverlapBox(transform.position, transform.localScale * 1.5f, transform.rotation, roomLayer.value);
+        detectedRooms = Physics.OverlapBox(transform.position, transform.localScale * 1f, transform.rotation, roomLayer.value);
 
         if (detectedRooms.Length >= 1)
             if (detectedRooms.Length == 1 && detectedRooms[0].gameObject != gameObject || detectedRooms.Length > 1)
@@ -73,11 +73,6 @@ public class RoomGenerator : MonoBehaviour
             
         insideOtherRoom = false;
         return insideOtherRoom;
-    }
-
-    private void OnDrawGizmos ()
-    {
-        Gizmos.DrawCube(transform.localPosition, transform.localScale * 1.5f);
     }
 
     public void CheckNeighborRooms()
