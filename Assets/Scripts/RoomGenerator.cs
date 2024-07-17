@@ -34,20 +34,12 @@ public class RoomGenerator : MonoBehaviour
     public bool InsideOtherRoom => insideOtherRoom;
 
     // Unity Events-----
-    // private void OnTriggerEnter (Collider other)
-    // {
-    //     if (other.gameObject.layer == gameObject.layer && other != gameObject)
-    //     {
-    //         insideOtherRoom = true;
-    //     }
-    // }
-    // private void OnTriggerExit (Collider other)
-    // {
-    //     if (other.gameObject.layer == gameObject.layer && other != gameObject)
-    //     {
-    //         insideOtherRoom = false;
-    //     }
-    // }
+
+    private void Start ()
+    {
+        //InitRoom(Vector2Int.zero);
+        //GenerateRoom();
+    }
 
     // Public Methods----
     public void InitRoom (Vector2Int minAndMAxRandom)

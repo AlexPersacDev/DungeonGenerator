@@ -40,32 +40,12 @@ public class DungeonGenerator : MonoBehaviour
                     Quaternion.identity));
 
             generatedRooms[i].InitRoom(Vector2Int.zero);
-
-            if (SetRandomRoomPos() < 0)
-            {
-                float zPos = 0;
-                if(generatedRooms[i].transform.localScale.z!= 1) 
-                    zPos = (generatedRooms[i].transform.localPosition.z - generatedRooms[i].transform.localScale.z)/SetRandomRoomPos();
-                
-                generatedRooms[i].transform.localPosition += new Vector3(
-                (neighborCurrentRoom.transform.localScale.x + generatedRooms[i].transform.localScale.x)/2 * SetRandomRoomPos(), 
-                        generatedRooms[i].transform.localPosition.y, zPos);
-            }
-
-            else
-            {
-                float xPos = 0;
-                if(generatedRooms[i].transform.localScale.x!= 1) 
-                    xPos = (generatedRooms[i].transform.localPosition.x - generatedRooms[i].transform.localScale.x)/SetRandomRoomPos();
-                
-                generatedRooms[i].transform.localPosition += new Vector3(xPos, generatedRooms[i].transform.localPosition.y, 
-                    (neighborCurrentRoom.transform.localScale.z + generatedRooms[i].transform.localScale.z)/2 * SetRandomRoomPos());
-            }
-                
+            
+            PutRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
             
             generatedRooms[i].GenerateRoom();
             await Task.Delay(1);
-             
+            
             if (!generatedRooms[i].CheckIfIsInsideOfanotherRoom()) continue;
             
             while (generatedRooms[i].CheckIfIsInsideOfanotherRoom())
@@ -78,36 +58,36 @@ public class DungeonGenerator : MonoBehaviour
                 
                 generatedRooms[i].RescaleRoom();
                 
-                if (SetRandomRoomPos() < 0)
-                {
-                    float zPos = 0;
-                    if(generatedRooms[i].transform.localScale.z != 1) 
-                        zPos = (generatedRooms[i].transform.localPosition.z - generatedRooms[i].transform.localScale.z)/SetRandomRoomPos();
-                
-                    generatedRooms[i].transform.localPosition += new Vector3(
-                        (neighborCurrentRoom.transform.localScale.x + generatedRooms[i].transform.localScale.x)/2 * SetRandomRoomPos(), 
-                        generatedRooms[i].transform.localPosition.y, zPos);
-                }
-
-                else
-                {
-                    float xPos = 0;
-                    if(generatedRooms[i].transform.localScale.x != 1) 
-                        xPos = (generatedRooms[i].transform.localPosition.x - generatedRooms[i].transform.localScale.x)/SetRandomRoomPos();
-                
-                    generatedRooms[i].transform.localPosition += new Vector3(xPos, generatedRooms[i].transform.localPosition.y, 
-                        (neighborCurrentRoom.transform.localScale.z + generatedRooms[i].transform.localScale.z)/2 * SetRandomRoomPos());
-                }
+                PutRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
             }
             generatedRooms[i].GenerateRoom(); 
         }
     }
 
-    private int SetRandomRoomPos ()
+    private void PutRoomInNeighbourBounds (RoomGenerator currentRoom, GameObject neighbourRoom)
+    {
+        float zValue = neighbourRoom.transform.localScale.z + currentRoom.transform.localScale.z;
+        float xValue = neighbourRoom.transform.localScale.x + currentRoom.transform.localScale.x;;
+        
+        if (GetRandomValue() < 0)
+        {
+            currentRoom.transform.position +=
+                new Vector3(xValue / GetRandomValue(),
+                    transform.position.y, zValue);
+        }
+
+        else
+        {
+            currentRoom.transform.position +=
+                new Vector3(xValue,
+                    transform.position.y, zValue / GetRandomValue());
+        }
+    }
+
+    private int GetRandomValue ()
     {
         int value = Random.Range(0, 2);
-        if (value == 0) return -2;
-        
-        return 2;
+
+        return value == 0 ? -2 : 2;
     }
 }
