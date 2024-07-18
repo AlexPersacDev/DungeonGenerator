@@ -6,8 +6,67 @@
   <component name="ChangeListManager">
     <list default="true" id="063fa9d9-0ab1-49d1-b9c0-344a372bbc7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DungeonGenerator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DungeonGenerator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/Room.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefab/Room.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/DungeonGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DungeonGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RoomGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RoomGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Wall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Wall.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free).meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Assets_Preview.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Assets_Preview/Assets_Preview.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Assets_Preview/Assets_Preview.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene/LightingData.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene/LightingData.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene/Lightmap-0_comp_dir.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene/Lightmap-0_comp_dir.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene/Lightmap-0_comp_light.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Demo/Demo_Scene/Demo_Scene/Lightmap-0_comp_light.exr.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Materials.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Materials/Dungeon_Mat_01.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Materials/Dungeon_Mat_01.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Materials/Dungeon_Mat_02.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Materials/Dungeon_Mat_02.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Door.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Door.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Floor.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Floor.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Lamp_01.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Lamp_01.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Lamp_02.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Lamp_02.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Pillar.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Pillar.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Wall.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Wall.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Wall_Entrance.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Originals/Wall_Entrance.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Door.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Door.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Floor.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Floor.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Lamp_01.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Lamp_01.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Lamp_02.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Lamp_02.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Pillar.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Pillar.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Wall.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Wall.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Wall_Entrance.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Prefabs/Wall_Entrance.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures/Dungeon_01_Diffuse.tga" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures/Dungeon_01_Diffuse.tga.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures/Dungeon_02_Diffuse.tga" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures/Dungeon_02_Diffuse.tga.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures/Dungeon_02_Emission.tga" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/StylizedHandPaintedDungeon(Free)/Textures/Dungeon_02_Emission.tga.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,35 +79,35 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c5ed782439084ef1bc2ad85eec89e9fe175a00/e3/0e0f72dd/Transform.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2jMoWaJBvz0YSx6c14qpmPPqCuA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\alexp\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\alexp\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\alexp\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\alexp\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\alexp\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\alexp\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.26f1\Editor\Unity.exe" />
@@ -95,7 +154,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1721206339910</updated>
-      <workItem from="1721206341441" duration="8335000" />
+      <workItem from="1721206341441" duration="8552000" />
+      <workItem from="1721299858066" duration="12156000" />
     </task>
     <servers />
   </component>

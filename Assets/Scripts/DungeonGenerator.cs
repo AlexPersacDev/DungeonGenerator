@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -23,13 +24,13 @@ public class DungeonGenerator : MonoBehaviour
         generatedRooms[0].InitRoom(new Vector2Int(0, 1)); 
         generatedRooms[0].GenerateRoom(); 
         roomsCant--;
-        GenerateRooms();
+        StartCoroutine(GenerateRooms());
     }
 
     // Public Methods----
 
     // Private Methods----
-    private async void GenerateRooms ()
+    private IEnumerator GenerateRooms ()
     {
         for (int i = 1; i < roomsCant; i++)
         {
@@ -41,16 +42,18 @@ public class DungeonGenerator : MonoBehaviour
 
             generatedRooms[i].InitRoom(Vector2Int.zero);
             
-            PutRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
+            PlaceRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
             
             generatedRooms[i].GenerateRoom();
-            await Task.Delay(1);
+            yield return null;
             
             if (!generatedRooms[i].CheckIfIsInsideOfAnotherRoom()) continue;
             
             while (generatedRooms[i].CheckIfIsInsideOfAnotherRoom())
             {
-                await Task.Delay(1);
+                generatedRooms[i].ResetRoom();
+                yield return null;
+            
                 int indx = Random.Range(0, generatedRooms.Count);
                 neighborCurrentRoom = generatedRooms[indx].gameObject;
                 
@@ -58,30 +61,93 @@ public class DungeonGenerator : MonoBehaviour
                 
                 generatedRooms[i].transform.localPosition = neighborCurrentRoom.transform.localPosition;
                 
-                PutRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
+                PlaceRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
+                //yield return new WaitForSeconds(0.5f);
             }
             generatedRooms[i].GenerateRoom(); 
         }
     }
 
-    private void PutRoomInNeighbourBounds (RoomGenerator currentRoom, GameObject neighbourRoom)
+    private IEnumerator AvoidOverlapedRooms (RoomGenerator currentRoom)
     {
+        while (currentRoom.CheckIfIsInsideOfAnotherRoom())
+        {
+            currentRoom.ResetRoom();
+            yield return null;
+            
+            int indx = Random.Range(0, generatedRooms.Count);
+            neighborCurrentRoom = generatedRooms[indx].gameObject;
+                
+            currentRoom.RescaleRoom();
+                
+            currentRoom.transform.localPosition = neighborCurrentRoom.transform.localPosition;
+                
+            PlaceRoomInNeighbourBounds(currentRoom, neighborCurrentRoom);
+        }
+        currentRoom.GenerateRoom(); 
         
-        
-        
+    }
+
+    private void PlaceRoomInNeighbourBounds (RoomGenerator currentRoom, GameObject neighbourRoom)
+    {
         if (GetRandomValue() < 0)
         {
             float zValue = neighbourRoom.transform.localScale.z + currentRoom.transform.localScale.z;
             
-            currentRoom.transform.localPosition += new Vector3(transform.localPosition.x, transform.position.y, zValue);
+            currentRoom.transform.localPosition += new Vector3(transform.localPosition.x, transform.position.y, 
+                CheckScaleRatio(currentRoom.transform.localScale.x, 
+                    neighbourRoom.transform.localScale.x));
         }
 
         else
         {
             float xValue = neighbourRoom.transform.localScale.x + currentRoom.transform.localScale.x;
             
-            currentRoom.transform.localPosition += new Vector3(xValue, transform.position.y, transform.localPosition.z);
+            currentRoom.transform.localPosition += new Vector3(xValue, transform.position.y, 
+                CheckScaleRatio(currentRoom.transform.localScale.z, 
+                    neighbourRoom.transform.localScale.z));
         }
+    }
+
+    private float CheckScaleRatio (float currentRoomScale, float neighbourRoomScale)
+    {
+        float movements = 0;
+        float highestScaleValue = currentRoomScale > neighbourRoomScale ? currentRoomScale : neighbourRoomScale;
+        
+        if (currentRoomScale % 2 == 0 && neighbourRoomScale % 2 == 0) // son pares
+        {
+            //se podrá mover tantas veces como maxScaleValue/2
+            //return MoveRoomSideWays(0., movements);
+            return 0;
+        }
+        
+        if (currentRoomScale % 2 != 0 && neighbourRoomScale % 2 != 0) 
+        {
+            if (currentRoomScale == 1 || neighbourRoomScale == 1) movements = (highestScaleValue - 1) / 2;
+            else movements = (currentRoomScale + neighbourRoomScale) / 2 - 1;
+            
+            return MoveRoomSideWays(0, (int)movements);
+        }
+        
+        if (currentRoomScale == 1 || neighbourRoomScale == 1) movements = (highestScaleValue - 2) / 2;
+        else
+        {
+            if (currentRoomScale % 2 == 0) movements = currentRoomScale / 2;
+            else movements = neighbourRoomScale / 2;
+        }
+
+        return MoveRoomSideWays(1, (int)movements);
+    }
+
+    private float MoveRoomSideWays (float initValue, int move)
+    {
+        float valueToReturn = initValue;
+        int valueToAdd = Random.Range(0, move + 1);
+        valueToReturn += valueToAdd;
+        
+        if (Random.Range(0, 2) % 2 == 0) valueToReturn *= -1;
+        
+        return valueToReturn;
     }
 
     private int GetRandomValue ()
