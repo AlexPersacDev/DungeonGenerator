@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.LowLevel;
 using Random = UnityEngine.Random;
@@ -31,7 +32,7 @@ public class RoomGenerator : MonoBehaviour
     private bool insideOtherRoom;
     private Collider[] detectedRooms;
 
-    private Collider roomCollider;
+    private BoxCollider roomCollider;
 
     // Properties----
     public bool InsideOtherRoom => insideOtherRoom;
@@ -40,19 +41,10 @@ public class RoomGenerator : MonoBehaviour
 
     private void Start ()
     {
-        roomCollider = GetComponent<Collider>();
+        roomCollider = GetComponent<BoxCollider>();
         //InitRoom(Vector2Int.zero);
         //GenerateRoom();
     }
-
-    // private void OnTriggerEnter (Collider other)
-    // {
-    //     if (other.gameObject.layer == gameObject.layer) insideOtherRoom = true;
-    // }
-    // private void OnTriggerExit (Collider other)
-    // {
-    //     if (other.gameObject.layer == gameObject.layer) insideOtherRoom = false;
-    // }
 
     // Public Methods----
     public void InitRoom (Vector2Int minAndMAxRandom)
@@ -75,11 +67,13 @@ public class RoomGenerator : MonoBehaviour
     public bool CheckIfIsInsideOfAnotherRoom ()
     {
         detectedRooms = null;
-        detectedRooms = Physics.OverlapBox(transform.position, transform.localScale * 1.25f, transform.rotation, roomLayer.value);
-        
-        if (detectedRooms.ToList().Contains(roomCollider)) detectedRooms.ToList().Remove(roomCollider);
+        List<Collider> detectedRoomsList = new List<Collider>();
+        detectedRooms = Physics.OverlapBox(transform.position, transform.localScale * 1f, transform.rotation, roomLayer.value);
 
-        if (detectedRooms.ToList().Count >= 1)
+        detectedRoomsList = detectedRooms.ToList();
+        if(detectedRoomsList.Contains(roomCollider)) detectedRoomsList.Remove(roomCollider);
+        
+        if (detectedRoomsList.Count >= 1)
         {
             insideOtherRoom = true;
             return insideOtherRoom;
@@ -92,7 +86,7 @@ public class RoomGenerator : MonoBehaviour
     private void OnDrawGizmos ()
     {
         Collider coll = GetComponent<Collider>();
-        Gizmos.DrawCube(transform.position, transform.localScale * 1.25f);
+        Gizmos.DrawCube(transform.position, transform.localScale * 1f);
     }
 
     public void CheckNeighborRooms()

@@ -13,7 +13,7 @@ public class DungeonGenerator : MonoBehaviour
     
     // Fields----
     private List<RoomGenerator> generatedRooms = new List<RoomGenerator>();
-    private GameObject neighborCurrentRoom;
+    private GameObject currentNeighbortRoom;
     
     // Properties----
 
@@ -34,15 +34,15 @@ public class DungeonGenerator : MonoBehaviour
     {
         for (int i = 1; i < roomsCant; i++)
         {
-            neighborCurrentRoom = generatedRooms[Random.Range(0, generatedRooms.Count)].gameObject;
+            currentNeighbortRoom = GetNeighbourRoom();
             
             generatedRooms.Add(Instantiate(room, 
-                neighborCurrentRoom.transform.position, 
+                currentNeighbortRoom.transform.position, 
                     Quaternion.identity));
 
             generatedRooms[i].InitRoom(Vector2Int.zero);
             
-            PlaceRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
+            PlaceRoomInNeighbourBounds(generatedRooms[i], currentNeighbortRoom);
             
             generatedRooms[i].GenerateRoom();
             yield return null;
@@ -53,50 +53,37 @@ public class DungeonGenerator : MonoBehaviour
             {
                 generatedRooms[i].ResetRoom();
                 yield return null;
-            
-                int indx = Random.Range(0, generatedRooms.Count);
-                neighborCurrentRoom = generatedRooms[indx].gameObject;
+
+                currentNeighbortRoom = GetNeighbourRoom();
+                while (currentNeighbortRoom == generatedRooms[i].gameObject)
+                {
+                    currentNeighbortRoom = GetNeighbourRoom();
+                }
                 
                 generatedRooms[i].RescaleRoom();
                 
-                generatedRooms[i].transform.localPosition = neighborCurrentRoom.transform.localPosition;
+                generatedRooms[i].transform.localPosition = currentNeighbortRoom.transform.localPosition;
                 
-                PlaceRoomInNeighbourBounds(generatedRooms[i], neighborCurrentRoom);
-                //yield return new WaitForSeconds(0.5f);
+                PlaceRoomInNeighbourBounds(generatedRooms[i], currentNeighbortRoom);
+                yield return new WaitForSeconds(0.2f);
             }
             generatedRooms[i].GenerateRoom(); 
         }
     }
 
-    private IEnumerator AvoidOverlapedRooms (RoomGenerator currentRoom)
+    private GameObject GetNeighbourRoom ()
     {
-        while (currentRoom.CheckIfIsInsideOfAnotherRoom())
-        {
-            currentRoom.ResetRoom();
-            yield return null;
-            
-            int indx = Random.Range(0, generatedRooms.Count);
-            neighborCurrentRoom = generatedRooms[indx].gameObject;
-                
-            currentRoom.RescaleRoom();
-                
-            currentRoom.transform.localPosition = neighborCurrentRoom.transform.localPosition;
-                
-            PlaceRoomInNeighbourBounds(currentRoom, neighborCurrentRoom);
-        }
-        currentRoom.GenerateRoom(); 
-        
+        return generatedRooms[Random.Range(0, generatedRooms.Count)].gameObject;
     }
-
+    
     private void PlaceRoomInNeighbourBounds (RoomGenerator currentRoom, GameObject neighbourRoom)
     {
         if (GetRandomValue() < 0)
         {
             float zValue = neighbourRoom.transform.localScale.z + currentRoom.transform.localScale.z;
             
-            currentRoom.transform.localPosition += new Vector3(transform.localPosition.x, transform.position.y, 
-                CheckScaleRatio(currentRoom.transform.localScale.x, 
-                    neighbourRoom.transform.localScale.x));
+            currentRoom.transform.localPosition += new Vector3(CheckScaleRatio(currentRoom.transform.localScale.x, 
+                neighbourRoom.transform.localScale.x), transform.position.y, zValue);
         }
 
         else
