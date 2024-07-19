@@ -23,7 +23,13 @@ public class DungeonGenerator : MonoBehaviour
         generatedRooms.Add(Instantiate(room, Vector3.zero, Quaternion.identity));
         generatedRooms[0].InitRoom(new Vector2Int(0, 1)); 
         generatedRooms[0].GenerateRoom(); 
-        roomsCant--;
+        
+        for (int i = 0; i < roomsCant; i++)
+        {
+            generatedRooms.Add(Instantiate(room, 
+                Vector3.zero, 
+                Quaternion.identity));
+        }
         StartCoroutine(GenerateRooms());
     }
 
@@ -32,13 +38,12 @@ public class DungeonGenerator : MonoBehaviour
     // Private Methods----
     private IEnumerator GenerateRooms ()
     {
-        for (int i = 1; i < roomsCant; i++)
+        for (int i = 1; i <  generatedRooms.Count; i++)
         {
             currentNeighbortRoom = GetNeighbourRoom();
-            
-            generatedRooms.Add(Instantiate(room, 
-                currentNeighbortRoom.transform.position, 
-                    Quaternion.identity));
+
+            generatedRooms[i].gameObject.SetActive(true);
+            generatedRooms[i].transform.position = currentNeighbortRoom.transform.position;
 
             generatedRooms[i].InitRoom(Vector2Int.zero);
             
@@ -47,9 +52,9 @@ public class DungeonGenerator : MonoBehaviour
             generatedRooms[i].GenerateRoom();
             yield return null;
             
-            if (!generatedRooms[i].CheckIfIsInsideOfAnotherRoom()) continue;
+            if (!generatedRooms[i].InsideOtherRoom) continue;
             
-            while (generatedRooms[i].CheckIfIsInsideOfAnotherRoom())
+            while (generatedRooms[i].InsideOtherRoom)
             {
                 generatedRooms[i].ResetRoom();
                 yield return null;
@@ -65,10 +70,13 @@ public class DungeonGenerator : MonoBehaviour
                 generatedRooms[i].transform.localPosition = currentNeighbortRoom.transform.localPosition;
                 
                 PlaceRoomInNeighbourBounds(generatedRooms[i], currentNeighbortRoom);
-                yield return new WaitForSeconds(0.2f);
+                yield return null;
             }
-            generatedRooms[i].GenerateRoom(); 
+            generatedRooms[i].GenerateRoom();
         }
+        
+        //if(CheckIfThereAreOverlapedRooms()) GenerateNewDungeon();
+        StopCoroutine(GenerateRooms());
     }
 
     private GameObject GetNeighbourRoom ()
@@ -142,5 +150,27 @@ public class DungeonGenerator : MonoBehaviour
         int value = Random.Range(0, 2);
 
         return value == 0 ? -2 : 2;
+    }
+
+    private void GenerateNewDungeon ()
+    {
+        for (int i = 0; i < generatedRooms.Count; i++)
+        {
+            generatedRooms[i].gameObject.SetActive(false);
+            generatedRooms[i].ResetRoom();
+        }
+        generatedRooms[0].gameObject.SetActive(true);
+        generatedRooms[0].InitRoom(new Vector2Int(0, 1)); 
+        generatedRooms[0].GenerateRoom(); 
+        StartCoroutine(GenerateRooms());  
+    }
+
+    private bool CheckIfThereAreOverlapedRooms ()
+    {
+        for (int i = 0; i < generatedRooms.Count; i++)
+        {
+            if (generatedRooms[i].CheckIfIsInsideOfAnotherRoom())return true;
+        }
+        return false;
     }
 }

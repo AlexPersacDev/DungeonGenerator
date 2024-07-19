@@ -46,6 +46,11 @@ public class RoomGenerator : MonoBehaviour
         //GenerateRoom();
     }
 
+    private void Update ()
+    {
+        CheckIfIsInsideOfAnotherRoom();
+    }
+
     // Public Methods----
     public void InitRoom (Vector2Int minAndMAxRandom)
     {
@@ -66,9 +71,8 @@ public class RoomGenerator : MonoBehaviour
 
     public bool CheckIfIsInsideOfAnotherRoom ()
     {
-        detectedRooms = null;
         List<Collider> detectedRoomsList = new List<Collider>();
-        detectedRooms = Physics.OverlapBox(transform.position, transform.localScale * 1f, transform.rotation, roomLayer.value);
+        detectedRooms = Physics.OverlapBox(transform.position, transform.lossyScale, transform.rotation, roomLayer.value);
 
         detectedRoomsList = detectedRooms.ToList();
         if(detectedRoomsList.Contains(roomCollider)) detectedRoomsList.Remove(roomCollider);
@@ -82,13 +86,7 @@ public class RoomGenerator : MonoBehaviour
         insideOtherRoom = false;
         return insideOtherRoom;
     }
-
-    private void OnDrawGizmos ()
-    {
-        Collider coll = GetComponent<Collider>();
-        Gizmos.DrawCube(transform.position, transform.localScale * 1f);
-    }
-
+    
     public void CheckNeighborRooms()
     {
         foreach (GameObject wall in generatedLeftAndRightWalls)
@@ -215,14 +213,8 @@ public class RoomGenerator : MonoBehaviour
             index += highestValue - index;
         }
     }
-
-    private void ActivateAndSetRoofAndFloor ()
-    {
-        
-    }
     
     //-------------------------------------------------------
-    
     
     private void GenerateFloorAndRoof ()
     {
