@@ -32,7 +32,6 @@ public class DungeonGenerator : MonoBehaviour
         }
         StartCoroutine(GenerateRooms());
     }
-
     // Public Methods----
 
     // Private Methods----
@@ -58,7 +57,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 generatedRooms[i].ResetRoom();
                 yield return null;
-
+            
                 currentNeighbortRoom = GetNeighbourRoom();
                 while (currentNeighbortRoom == generatedRooms[i].gameObject)
                 {
@@ -74,8 +73,7 @@ public class DungeonGenerator : MonoBehaviour
             }
             generatedRooms[i].GenerateRoom();
         }
-        
-        //if(CheckIfThereAreOverlapedRooms()) GenerateNewDungeon();
+        GenerateDoors();
         StopCoroutine(GenerateRooms());
     }
 
@@ -90,8 +88,9 @@ public class DungeonGenerator : MonoBehaviour
         {
             float zValue = neighbourRoom.transform.localScale.z + currentRoom.transform.localScale.z;
             
-            currentRoom.transform.localPosition += new Vector3(CheckScaleRatio(currentRoom.transform.localScale.x, 
-                neighbourRoom.transform.localScale.x), transform.position.y, zValue);
+            currentRoom.transform.localPosition += new Vector3
+            (CheckScaleRatio(currentRoom.transform.localScale.x, neighbourRoom.transform.localScale.x),
+                transform.position.y, zValue);
         }
 
         else
@@ -118,17 +117,17 @@ public class DungeonGenerator : MonoBehaviour
         
         if (currentRoomScale % 2 != 0 && neighbourRoomScale % 2 != 0) 
         {
-            if (currentRoomScale == 1 || neighbourRoomScale == 1) movements = (highestScaleValue - 1) / 2;
-            else movements = (currentRoomScale + neighbourRoomScale) / 2 - 1;
+            if (currentRoomScale == 1 || neighbourRoomScale == 1) movements = (highestScaleValue - 1) /2;
+            else movements = (currentRoomScale + neighbourRoomScale);
             
             return MoveRoomSideWays(0, (int)movements);
         }
         
-        if (currentRoomScale == 1 || neighbourRoomScale == 1) movements = (highestScaleValue - 2) / 2;
+        if (currentRoomScale == 1 || neighbourRoomScale == 1) movements = (highestScaleValue - 1) / 2;
         else
         {
-            if (currentRoomScale % 2 == 0) movements = currentRoomScale / 2;
-            else movements = neighbourRoomScale / 2;
+            if (currentRoomScale % 2 == 0) movements = currentRoomScale -1;
+            else movements = neighbourRoomScale -1;
         }
 
         return MoveRoomSideWays(1, (int)movements);
@@ -138,7 +137,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         float valueToReturn = initValue;
         int valueToAdd = Random.Range(0, move + 1);
-        valueToReturn += valueToAdd;
+        valueToReturn += valueToAdd *2;
         
         if (Random.Range(0, 2) % 2 == 0) valueToReturn *= -1;
         
@@ -152,17 +151,12 @@ public class DungeonGenerator : MonoBehaviour
         return value == 0 ? -2 : 2;
     }
 
-    private void GenerateNewDungeon ()
+    private void GenerateDoors ()
     {
         for (int i = 0; i < generatedRooms.Count; i++)
         {
-            generatedRooms[i].gameObject.SetActive(false);
-            generatedRooms[i].ResetRoom();
+            generatedRooms[i].CheckOverlapedWalls();
         }
-        generatedRooms[0].gameObject.SetActive(true);
-        generatedRooms[0].InitRoom(new Vector2Int(0, 1)); 
-        generatedRooms[0].GenerateRoom(); 
-        StartCoroutine(GenerateRooms());  
     }
 
     private bool CheckIfThereAreOverlapedRooms ()

@@ -17,22 +17,29 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private Transform[] floorAndRoofPositions;
 
     [SerializeField] private LayerMask roomLayer;
+    [SerializeField] private LayerMask wallLayer;
     
-    [SerializeField] private GameObject wall;
+    [SerializeField] private Wall wall;
     [SerializeField] private GameObject floor;
 
     // Fields----
     private Vector2Int currentLenghtAndWidth;
 
     int highestValue = 0;
-    private List<GameObject> generatedLeftAndRightWalls = new List<GameObject>();
-    private List<GameObject> generatedUpAndDonWalls = new List<GameObject>();
+    private List<Wall> generatedLeftAndRightWalls = new List<Wall>();
+    private List<Wall> generatedUpAndDonWalls = new List<Wall>();
     private List<GameObject> generatedFloors = new List<GameObject>();
     private List<GameObject> generatedRoofs = new List<GameObject>();
     private bool insideOtherRoom;
     private Collider[] detectedRooms;
 
+    private Dictionary<Wall, RoomGenerator> overlapedWallsAndHisRoom = new Dictionary<Wall, RoomGenerator>();
+    private List<RoomGenerator> neighbourRooms = new List<RoomGenerator>();
+    private List<Wall> wallsThatDetectOverlap = new List<Wall>();
+    
     private BoxCollider roomCollider;
+
+    public BoxCollider RoomCollider => roomCollider;
 
     // Properties----
     public bool InsideOtherRoom => insideOtherRoom;
@@ -89,7 +96,7 @@ public class RoomGenerator : MonoBehaviour
     
     public void CheckNeighborRooms()
     {
-        foreach (GameObject wall in generatedLeftAndRightWalls)
+        foreach (Wall wall in generatedLeftAndRightWalls)
         {
             if (wall.TryGetComponent<Wall>(out Wall wallSC)) wallSC.CheckIfDetectsARoom();
         }
@@ -99,15 +106,15 @@ public class RoomGenerator : MonoBehaviour
     {
         transform.localScale = Vector3.one;
         transform.position = Vector3.zero;
-        foreach (GameObject wall in generatedLeftAndRightWalls)
+        foreach (Wall wall in generatedLeftAndRightWalls)
         {
-            wall.transform.localScale = new Vector3(1, wall.transform.localScale.y, 1);           
-            wall.SetActive(false);
+            wall.gameObject.transform.localScale = new Vector3(1, wall.transform.localScale.y, 1);     
+            wall.gameObject.SetActive(false);
         }
-        foreach (GameObject wall in generatedUpAndDonWalls)
+        foreach (Wall wall in generatedUpAndDonWalls)
         {
-            wall.transform.localScale = new Vector3(1, wall.transform.localScale.y, 1);
-            wall.SetActive(false);
+            wall.gameObject.transform.localScale = new Vector3(1, wall.transform.localScale.y, 1);
+            wall.gameObject.SetActive(false);
         }
     }
     
@@ -136,7 +143,8 @@ public class RoomGenerator : MonoBehaviour
             {
                 generatedLeftAndRightWalls.Add(Instantiate(wall, wallPos.position, wallPos.rotation));
                 generatedLeftAndRightWalls[^1].transform.SetParent(wallPos);
-                generatedLeftAndRightWalls[^1].SetActive(false);
+                generatedLeftAndRightWalls[^1].GetRoomParent(this);
+                generatedLeftAndRightWalls[^1].gameObject.SetActive(false);
             }
         }
         foreach (Transform wallPos in upAndDownWallsPositions)
@@ -145,7 +153,8 @@ public class RoomGenerator : MonoBehaviour
             {
                 generatedUpAndDonWalls.Add(Instantiate(wall, wallPos.position, wallPos.rotation));
                 generatedUpAndDonWalls[^1].transform.SetParent(wallPos);
-                generatedUpAndDonWalls[^1].SetActive(false);
+                generatedUpAndDonWalls[^1].GetRoomParent(this);
+                generatedUpAndDonWalls[^1].gameObject.SetActive(false);
             }
         }
     }
@@ -243,6 +252,44 @@ public class RoomGenerator : MonoBehaviour
                 }
             }
         }
-        
+    }
+
+    public void CheckOverlapedWalls ()
+    {
+        foreach (Wall currentWall in generatedLeftAndRightWalls)
+        {
+            RoomGenerator roomDetectedByWall = currentWall.CheckIfDetectsARoom();
+            if(roomDetectedByWall is null) continue;
+            
+            overlapedWallsAndHisRoom.Add(currentWall, roomDetectedByWall);
+            wallsThatDetectOverlap.Add(currentWall);
+            if(!neighbourRooms.Contains(roomDetectedByWall)) neighbourRooms.Add(roomDetectedByWall);
+        }
+        foreach (Wall currentWall in generatedUpAndDonWalls)
+        {
+            RoomGenerator roomDetectedByWall = currentWall.CheckIfDetectsARoom();
+            if(roomDetectedByWall == null) continue;
+            
+            overlapedWallsAndHisRoom.Add(currentWall, roomDetectedByWall);
+            wallsThatDetectOverlap.Add(currentWall);
+            if(!neighbourRooms.Contains(roomDetectedByWall)) neighbourRooms.Add(roomDetectedByWall);
+        }
+
+        AddDoors();
+    }
+    
+    private void AddDoors()
+    {
+        foreach (RoomGenerator currentNeighboor in neighbourRooms)
+        {
+            List<Wall> wallsThatDetectTheSameRoom = new List<Wall>();
+            for (int i = 0; i < overlapedWallsAndHisRoom.Count; i++)
+            {
+                if (overlapedWallsAndHisRoom[wallsThatDetectOverlap[i]] != currentNeighboor) continue;
+                wallsThatDetectTheSameRoom.Add(wallsThatDetectOverlap[i]);
+            }
+
+            wallsThatDetectTheSameRoom[0].ChangeWallToDoor();
+        }
     }
 }
